@@ -1,2 +1,7 @@
 # Autotests_Pytest_Petstore
-Автотесты на Pytest для https://petstore.swagger.io/
+В данном рапозитории содержится пример реализации автотестов с помощью Pytest для https://petstore.swagger.io/.
+
+Перед запуском тестов следует установить зависимости:
+```bash
+pip install -r requirements.txt
+```
