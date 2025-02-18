@@ -1,5 +1,6 @@
 import requests
 import pytest
+from jsonschema import validate
 
 class TestGetUserLogin:
     @pytest.mark.xfail()
@@ -10,17 +11,17 @@ class TestGetUserLogin:
             "username": username,
             "password": password
         }
-        r = requests.get(f"{base_url}/user/login", params=data)
-        assert r.status_code == 400
+        response = requests.get(f"{base_url}/user/login", params=data)
+        assert response.status_code == 400, f"Получили {response.status_code}"
 
     @pytest.mark.parametrize("username", ["test", "qwerty_12345"])
     @pytest.mark.parametrize("password", ["test", "qwerty_12345"])
-    def test_ok(self, base_url, username, password):
+    @pytest.mark.parametrize("schema", ["schema_get_user_login"], indirect=True)
+    def test_ok(self, base_url, schema, username, password):
         data = {
             "username": username,
             "password": password
         }
-        r = requests.get(f"{base_url}/user/login", params=data)
-        assert r.ok
-        assert r.json()["type"]
-        assert r.json()["message"]
+        response = requests.get(f"{base_url}/user/login", params=data)
+        assert response.ok, f"Получили {response.status_code}"
+        validate(instance=response.json(), schema=schema)
