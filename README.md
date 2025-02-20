@@ -8,5 +8,5 @@ pip install -r requirements.txt
 
 Запуск тестов:
 ```bash
-pytest
+pytest -n auto tests
 ```
